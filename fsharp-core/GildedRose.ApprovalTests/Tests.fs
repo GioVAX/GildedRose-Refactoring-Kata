@@ -7,13 +7,13 @@ open System.IO
 
 [<Fact>]
 let ``Thirty day report is correct`` () =
-    let expected = File.ReadAllText "GildedRoseTest.ApprovalTest.ThirtyDays.received.txt"
+  let expected = File.ReadAllText "GildedRoseTest.ApprovalTest.ThirtyDays.received.txt"
 
-    let fakeoutput = new StringBuilder()
-    Console.SetOut(new StringWriter(fakeoutput))
-    Console.SetIn(new StringReader("a\n"))
+  let fakeoutput = StringBuilder()
+  Console.SetOut(new StringWriter(fakeoutput))
+  Console.SetIn(new StringReader("a\n"))
 
-    GildedRose.Program.main [||] |> ignore
-    let actual = fakeoutput.ToString()
+  Program.main [||] |> ignore
+  let actual = fakeoutput.ToString()
 
-    Assert.Equal(expected, actual)
+  Assert.Equal(expected, actual)
