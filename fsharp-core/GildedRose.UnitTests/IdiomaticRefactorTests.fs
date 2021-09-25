@@ -35,7 +35,45 @@ let ``test dexterity vest multiple times`` () =
     items.Add({Name = "+5 Dexterity Vest"; SellIn = 10; Quality = 20})
     
     let app = GildedRose(items)
-    for i = 1 to 10 do
+    for i = 1 to 30 do
         app.UpdateQuality()
-        let expected = {Name = "+5 Dexterity Vest"; SellIn = 10-i; Quality = 20-i}
+        let expSellIn = 10 - i
+
+        let expected = 
+            if expSellIn < 0 then
+                {Name = "+5 Dexterity Vest"; SellIn = expSellIn; Quality = System.Math.Max(0,20-i+expSellIn)}
+            else
+                {Name = "+5 Dexterity Vest"; SellIn = expSellIn; Quality = 20-i}
+
         test <@ expected = items.[0] @>
+
+
+[<Fact>]
+let ``test aged brie`` () =
+    let items = new List<Item>()  
+    items.Add({Name = "Aged Brie"; SellIn = 2; Quality = 0})
+    
+    let app = GildedRose(items)
+    app.UpdateQuality()
+    
+    let expected = {Name = "Aged Brie"; SellIn = 1; Quality = 1}
+
+    test <@ expected = items.[0] @>
+
+[<Fact>]
+let ``test aged brie multiple times`` () =
+    let items = new List<Item>()  
+    items.Add({Name = "Aged Brie"; SellIn = 2; Quality = 0})
+    
+    let app = GildedRose(items)
+    for i = 1 to 30 do
+        app.UpdateQuality()
+        let expSellIn = 2 - i
+        let expected = 
+            if expSellIn < 0 then
+                {Name = "Aged Brie"; SellIn = expSellIn; Quality = System.Math.Min(i-expSellIn, 50)}
+            else
+                {Name = "Aged Brie"; SellIn = expSellIn; Quality = i}
+        
+        test <@ expected = items.[0] @>
+
