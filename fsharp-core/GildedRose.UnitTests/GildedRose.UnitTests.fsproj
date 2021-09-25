@@ -1,15 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Tests.fs" />
+    <Compile Include="IdiomaticRefactorTests.fs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0" />
     <PackageReference Include="Unquote" Version="4.0.0" />
@@ -19,13 +16,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\GildedRose\GildedRose.fsproj" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.6.2" />
   </ItemGroup>
-
 </Project>
