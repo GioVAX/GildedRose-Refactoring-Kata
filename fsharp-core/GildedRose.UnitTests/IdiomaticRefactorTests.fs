@@ -77,3 +77,31 @@ let ``test aged brie multiple times`` () =
         
         test <@ expected = items.[0] @>
 
+[<Fact>]
+let ``test elixir mongoose`` () =
+    let items = new List<Item>()  
+    items.Add({Name = "Elixir of the Mongoose"; SellIn = 5; Quality = 7})
+    
+    let app = GildedRose(items)
+    app.UpdateQuality()
+    
+    let expected = {Name = "Elixir of the Mongoose"; SellIn = 4; Quality = 6}
+
+    test <@ expected = items.[0] @>
+
+[<Fact>]
+let ``test elixir mongoose multiple times`` () =
+    let items = new List<Item>()  
+    items.Add({Name = "Elixir of the Mongoose"; SellIn = 5; Quality = 7})
+    
+    let app = GildedRose(items)
+    for i = 1 to 30 do
+        app.UpdateQuality()
+        let expSellIn = 5 - i
+        let expected = 
+            if expSellIn < 0 then
+                {Name = "Elixir of the Mongoose"; SellIn = expSellIn; Quality = System.Math.Max(0,7-i+expSellIn)} //System.Math.Min(7-i+expSellIn, 50)}
+            else
+                {Name = "Elixir of the Mongoose"; SellIn = expSellIn; Quality = 7-i}
+        
+        test <@ expected = items.[0] @>
