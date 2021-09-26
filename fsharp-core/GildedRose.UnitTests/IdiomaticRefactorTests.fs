@@ -105,3 +105,30 @@ let ``test elixir mongoose multiple times`` () =
                 {Name = "Elixir of the Mongoose"; SellIn = expSellIn; Quality = 7-i}
         
         test <@ expected = items.[0] @>
+
+[<Fact>]
+let ``test sulfuras sellin = 0`` () =
+    let item = {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80}
+    let items = new List<Item>()
+    items.Add(item)
+    
+    let app = GildedRose(items)
+    app.UpdateQuality()
+    
+    let expected = item
+
+    test <@ expected = items.[0] @>
+
+
+[<Fact>]
+let ``test sulfuras SellIn = 0 multiple times`` () =
+    let item = {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80}
+    let items = new List<Item>()
+    items.Add(item)
+    
+    let app = GildedRose(items)
+    for i = 1 to 30 do
+        app.UpdateQuality()
+        let expected = item
+        
+        test <@ expected = items.[0] @>
