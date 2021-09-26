@@ -164,32 +164,16 @@ let ``test TAFKAL80ETC 1`` () =
 
 [<Fact(Skip="temp")>]
 let ``test TAFKAL80ETC 1 multiple times`` () =
-    let item = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 15; Quality = 20}
-    let items = new List<Item>()
-    items.Add(item)
+    let startItem = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 15; Quality = 20}
+    let transformer item = 
+        let q =
+            item.Quality + 1
+            + if item.SellIn < 11 then 1 else 0
+            + if item.SellIn < 6 then 1 else 0
 
-    let expected = item
+        { item with
+            SellIn = item.SellIn - 1
+            Quality = System.Math.Min(50, q)
+        }
 
-    let app = GildedRose(items)
-    for i = 1 to 30 do
-        app.UpdateQuality()
-
-        let expSellIn = item.SellIn - i
-
-        let expected = 
-            { item with 
-                SellIn = expSellIn
-                Quality =
-                    System.Math.Min(
-                        50,
-                        item.Quality + i +
-                            match expSellIn with
-                            | n when n < 6 ->
-                                5 + 2 * (5 - expSellIn)
-                            | n when n < 11 ->
-                                10 - expSellIn
-                            | _ -> 0
-                    )
-            }
-        
-        test <@ expected = items.[0] @>
+    iterate startItem transformer
