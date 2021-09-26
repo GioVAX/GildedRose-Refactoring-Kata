@@ -181,4 +181,48 @@ let ``test sulfuras sellIn = -1 multiple times`` () =
         let expected = item 
         
         test <@ expected = items.[0] @>
+
+[<Fact>]
+let ``test TAFKAL80ETC 1`` () =
+    let item = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 15; Quality = 20}
+    let items = new List<Item>()
+    items.Add(item)
+    
+    let app = GildedRose(items)
+    app.UpdateQuality()
+    
+    let expected = {item with SellIn = 14; Quality = 21}
+
+    test <@ expected = items.[0] @>
+
+[<Fact(Skip="temp")>]
+let ``test TAFKAL80ETC 1 multiple times`` () =
+    let item = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 15; Quality = 20}
+    let items = new List<Item>()
+    items.Add(item)
+
+    let expected = item
+
+    let app = GildedRose(items)
+    for i = 1 to 30 do
+        app.UpdateQuality()
+
+        let expSellIn = item.SellIn - i
+
+        let expected = 
+            { item with 
+                SellIn = expSellIn
+                Quality =
+                    System.Math.Min(
+                        50,
+                        item.Quality + i +
+                            match expSellIn with
+                            | n when n < 6 ->
+                                5 + 2 * (5 - expSellIn)
+                            | n when n < 11 ->
+                                10 - expSellIn
+                            | _ -> 0
+                    )
+            }
         
+        test <@ expected = items.[0] @>
