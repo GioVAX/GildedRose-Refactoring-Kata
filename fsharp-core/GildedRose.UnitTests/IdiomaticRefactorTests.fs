@@ -110,21 +110,23 @@ let ``test elixir mongoose multiple times`` () =
     items.Add(item)
 
     let app = GildedRose(items)
-    for i = 1 to 30 do
-        app.UpdateQuality()
-        let expSellIn = 5 - i
 
-        let expected = 
-            { item with 
-                SellIn = expSellIn
-                Quality =             
-                    if expSellIn < 0 then
-                        System.Math.Max(0,7-i+expSellIn)
-                    else
-                        7-i
-            }
-        
-        test <@ expected = items.[0] @>
+    let x = [1..30] 
+            |> List.fold
+                (fun item _ -> 
+                    app.UpdateQuality()
+
+                    let expected = 
+                        {item with
+                            SellIn = item.SellIn - 1
+                            Quality = System.Math.Max(0, item.Quality - (if item.SellIn < 1 then 2 else 1))
+                        }
+
+                    test <@ expected = items.[0] @>
+                    expected
+                )
+                item
+    ()
 
 [<Fact>]
 let ``test sulfuras sellin = 0`` () =
@@ -173,13 +175,12 @@ let ``test sulfuras sellIn = -1 multiple times`` () =
     let items = new List<Item>()
     items.Add(item)
 
+    let expected = item
+
     let app = GildedRose(items)
     for i = 1 to 30 do
         app.UpdateQuality()
-        let expSellIn = 5 - i
 
-        let expected = item 
-        
         test <@ expected = items.[0] @>
 
 [<Fact>]
