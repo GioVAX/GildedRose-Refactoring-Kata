@@ -162,18 +162,23 @@ let ``test TAFKAL80ETC 1`` () =
 
     test <@ expected = items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test TAFKAL80ETC 1 multiple times`` () =
     let startItem = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 15; Quality = 20}
     let transformer item = 
         let q =
-            item.Quality + 1
-            + if item.SellIn < 11 then 1 else 0
-            + if item.SellIn < 6 then 1 else 0
+            if item.SellIn < 1 then
+                0
+            else if item.Quality < 50 then
+                item.Quality + 1
+                + (if item.SellIn < 11 then 1 else 0)
+                + (if item.SellIn < 6 then 1 else 0)
+            else
+                item.Quality
 
         { item with
             SellIn = item.SellIn - 1
-            Quality = System.Math.Min(50, q)
+            Quality = System.Math.Min(50,q)
         }
 
     iterate startItem transformer
@@ -191,18 +196,23 @@ let ``test TAFKAL80ETC 2`` () =
 
     test <@ expected = items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test TAFKAL80ETC 2 multiple times`` () =
     let startItem = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 10; Quality = 49}
     let transformer item = 
         let q =
-            item.Quality + 1
-            + if item.SellIn < 11 then 1 else 0
-            + if item.SellIn < 6 then 1 else 0
+            if item.SellIn < 1 then
+                0
+            else if item.Quality < 50 then
+                item.Quality + 1
+                + (if item.SellIn < 11 then 1 else 0)
+                + (if item.SellIn < 6 then 1 else 0)
+            else
+                item.Quality
 
         { item with
             SellIn = item.SellIn - 1
-            Quality = System.Math.Min(50, q)
+            Quality = System.Math.Min(50,q)
         }
 
     iterate startItem transformer
