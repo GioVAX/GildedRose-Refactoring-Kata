@@ -53,27 +53,14 @@ let ``test dexterity vest`` () =
 
 [<Fact>]
 let ``test dexterity vest multiple times`` () =
-    let item = {Name = "+5 Dexterity Vest"; SellIn = 10; Quality = 20}
-    let items = new List<Item>()
-    items.Add(item)
-    
-    let app = GildedRose(items)
-    for i = 1 to 30 do
-        app.UpdateQuality()
-        let expSellIn = 10 - i
-
-        let expected = 
-            { item with 
-                SellIn = expSellIn
-                Quality = 
-                    if expSellIn < 0 then
-                        System.Math.Max(0,20-i+expSellIn)
-                    else
-                        20-i
+    let startItem = {Name = "+5 Dexterity Vest"; SellIn = 10; Quality = 20}
+    let transformer item = 
+            { item with
+                SellIn = item.SellIn - 1
+                Quality = System.Math.Max(0, item.Quality - (if item.SellIn < 1 then 2 else 1))
             }
 
-        test <@ expected = items.[0] @>
-
+    iterate startItem transformer
 
 [<Fact>]
 let ``test aged brie`` () =
@@ -90,25 +77,14 @@ let ``test aged brie`` () =
 
 [<Fact>]
 let ``test aged brie multiple times`` () =
-    let item = {Name = "Aged Brie"; SellIn = 2; Quality = 0}
-    let items = new List<Item>()
-    items.Add(item)
-    
-    let app = GildedRose(items)
-    for i = 1 to 30 do
-        app.UpdateQuality()
-        let expSellIn = 2 - i
-        let expected = 
+    let startItem = {Name = "Aged Brie"; SellIn = 2; Quality = 0}
+    let transformer item = 
             { item with
-                SellIn = expSellIn
-                Quality = 
-                    if expSellIn < 0 then
-                        System.Math.Min(i-expSellIn, 50)
-                    else
-                        i
+                SellIn = item.SellIn - 1
+                Quality = System.Math.Min(50, item.Quality + (if item.SellIn < 1 then 2 else 1))
             }
-        
-        test <@ expected = items.[0] @>
+
+    iterate startItem transformer
 
 [<Fact>]
 let ``test elixir mongoose`` () =
@@ -150,17 +126,9 @@ let ``test sulfuras sellin = 0`` () =
 
 [<Fact>]
 let ``test sulfuras SellIn = 0 multiple times`` () =
-    let item = {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80}
-    let items = new List<Item>()
-    items.Add(item)
-    
-    let app = GildedRose(items)
-    for i = 1 to 30 do
-        app.UpdateQuality()
-        let expected = item
-        
-        test <@ expected = items.[0] @>
-
+    iterate 
+        {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80}
+        id
 
 [<Fact>]
 let ``test sulfuras sellIn = -1`` () =
@@ -177,17 +145,9 @@ let ``test sulfuras sellIn = -1`` () =
 
 [<Fact>]
 let ``test sulfuras sellIn = -1 multiple times`` () =
-    let item = {Name = "Sulfuras, Hand of Ragnaros"; SellIn = -1; Quality = 80}
-    let items = new List<Item>()
-    items.Add(item)
-
-    let expected = item
-
-    let app = GildedRose(items)
-    for i = 1 to 30 do
-        app.UpdateQuality()
-
-        test <@ expected = items.[0] @>
+    iterate 
+        {Name = "Sulfuras, Hand of Ragnaros"; SellIn = -1; Quality = 80}
+        id
 
 [<Fact>]
 let ``test TAFKAL80ETC 1`` () =
