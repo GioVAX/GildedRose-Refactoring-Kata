@@ -251,3 +251,27 @@ let ``test TAFKAL80ETC 3 multiple times`` () =
 
     iterate startItem transformer
     
+[<Fact>]
+let ``test Mana Cake`` () =
+    let item = {Name = "Conjured Mana Cake"; SellIn = 3; Quality = 6}
+    let items = new List<Item>()
+    items.Add(item)
+    
+    let app = GildedRose(items)
+    app.UpdateQuality()
+    
+    let expected = {item with SellIn = 2; Quality = 5}
+
+    test <@ expected = items.[0] @>
+
+[<Fact>]
+let ``test Mana Cake multiple times`` () =
+    let startItem = {Name = "Conjured Mana Cake"; SellIn = 3; Quality = 6}
+    let transformer item = 
+        { item with
+            SellIn = item.SellIn - 1
+            Quality = System.Math.Max(0, item.Quality - (if item.SellIn < 1 then 2 else 1))
+        }
+
+    iterate startItem transformer
+    
