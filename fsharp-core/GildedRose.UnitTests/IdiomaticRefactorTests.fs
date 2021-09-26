@@ -152,3 +152,33 @@ let ``test sulfuras SellIn = 0 multiple times`` () =
         let expected = item
         
         test <@ expected = items.[0] @>
+
+
+[<Fact>]
+let ``test sulfuras sellIn = -1`` () =
+    let item = {Name = "Sulfuras, Hand of Ragnaros"; SellIn = -1; Quality = 80}
+    let items = new List<Item>()
+    items.Add(item)
+    
+    let app = GildedRose(items)
+    app.UpdateQuality()
+    
+    let expected = item
+
+    test <@ expected = items.[0] @>
+
+[<Fact>]
+let ``test sulfuras sellIn = -1 multiple times`` () =
+    let item = {Name = "Sulfuras, Hand of Ragnaros"; SellIn = -1; Quality = 80}
+    let items = new List<Item>()
+    items.Add(item)
+
+    let app = GildedRose(items)
+    for i = 1 to 30 do
+        app.UpdateQuality()
+        let expSellIn = 5 - i
+
+        let expected = item 
+        
+        test <@ expected = items.[0] @>
+        
