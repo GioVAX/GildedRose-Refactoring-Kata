@@ -5,6 +5,26 @@ open System.Collections.Generic
 open Xunit
 open Swensen.Unquote
 
+
+let iterate startingItem transform =
+    let items = new List<Item>()
+    items.Add(startingItem)
+
+    let app = GildedRose(items)
+
+    let x = [1..30] 
+            |> List.fold
+                (fun item _ -> 
+                    app.UpdateQuality()
+
+                    let expected = transform item
+
+                    test <@ expected = items.[0] @>
+                    expected
+                )
+                startingItem
+    ()
+
 [<Fact>]
 let ``test foo`` () =
     let item = {Name = "foo"; SellIn = 0; Quality = 0}
@@ -105,28 +125,14 @@ let ``test elixir mongoose`` () =
 
 [<Fact>]
 let ``test elixir mongoose multiple times`` () =
-    let item = {Name = "Elixir of the Mongoose"; SellIn = 5; Quality = 7}
-    let items = new List<Item>()
-    items.Add(item)
+    let startItem = {Name = "Elixir of the Mongoose"; SellIn = 5; Quality = 7}
+    let transformer item = 
+            { item with
+                SellIn = item.SellIn - 1
+                Quality = System.Math.Max(0, item.Quality - (if item.SellIn < 1 then 2 else 1))
+            }
 
-    let app = GildedRose(items)
-
-    let x = [1..30] 
-            |> List.fold
-                (fun item _ -> 
-                    app.UpdateQuality()
-
-                    let expected = 
-                        {item with
-                            SellIn = item.SellIn - 1
-                            Quality = System.Math.Max(0, item.Quality - (if item.SellIn < 1 then 2 else 1))
-                        }
-
-                    test <@ expected = items.[0] @>
-                    expected
-                )
-                item
-    ()
+    iterate startItem transformer
 
 [<Fact>]
 let ``test sulfuras sellin = 0`` () =
