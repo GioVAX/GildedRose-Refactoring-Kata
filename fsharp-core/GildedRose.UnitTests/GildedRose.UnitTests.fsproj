@@ -6,6 +6,7 @@
   <ItemGroup>
     <Compile Include="Tests.fs" />
     <Compile Include="IdiomaticRefactorTests.fs" />
+    <Compile Include="RefactoredTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.0" />
