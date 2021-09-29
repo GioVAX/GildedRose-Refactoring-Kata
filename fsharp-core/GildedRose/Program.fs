@@ -4,8 +4,9 @@ open System.Collections.Generic
 
 type Item = { Name: string; SellIn: int; Quality: int }
 
-type GildedRose(itms:Item list) =
-  let mutable items = itms
+type GildedRose(items:Item list) =
+  member val Items = items with get, set
+  //let mutable items = itms
 
   member this.transform item =
     let mutable retItem = item
@@ -39,7 +40,7 @@ type GildedRose(itms:Item list) =
     retItem
 
   member this.UpdateQuality() =
-    items <- items |> List.map this.transform
+    Items <- Items |> List.map this.transform
     ()
 
 
