@@ -5,8 +5,10 @@ open System.Collections.Generic
 type Item = { Name: string; SellIn: int; Quality: int }
 
 type GildedRose(items:Item list) =
-  member val Items = items with get, set
-  //let mutable items = itms
+  let mutable _items = items
+
+  member this.Items = _items
+  member private this.Items with set value = _items <- value
 
   member this.transform item =
     // if retItem.Name <> "Aged Brie" && retItem.Name <> "Backstage passes to a TAFKAL80ETC concert" then
@@ -74,16 +76,18 @@ type GildedRose(items:Item list) =
 
   member this.UpdateQuality() =
     this.Items <- this.Items |> List.map this.transform
-    ()
-
 
 module Program =
+
+  let toString (item:Item) =
+    sprintf "%s, %d, %d" item.Name item.SellIn item.Quality
+  
   [<EntryPoint>]
   let main argv =
     printfn "OMGHAI!"
     let items = 
-      [{Name = "Aged Brie"; SellIn = 2; Quality = 0};
-      {Name = "+5 Dexterity Vest"; SellIn = 10; Quality = 20};
+      [{Name = "+5 Dexterity Vest"; SellIn = 10; Quality = 20};
+      {Name = "Aged Brie"; SellIn = 2; Quality = 0};
       {Name = "Elixir of the Mongoose"; SellIn = 5; Quality = 7};
       {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80};
       {Name = "Sulfuras, Hand of Ragnaros"; SellIn = -1; Quality = 80};
@@ -96,8 +100,13 @@ module Program =
     for i = 0 to 30 do
       printfn "-------- day %d --------" i
       printfn "name, sellIn, quality"
-      for j = 0 to items.Length - 1 do
-        printfn "%s, %d, %d" items.[j].Name items.[j].SellIn items.[j].Quality
+
+      // for j = 0 to items.Length - 1 do
+      //   printfn "%s, %d, %d" items.[j].Name items.[j].SellIn items.[j].Quality
+      app.Items 
+        |> List.map toString
+        |> List.iter (printfn "%s")
+      
       printfn ""
       app.UpdateQuality()
     0
