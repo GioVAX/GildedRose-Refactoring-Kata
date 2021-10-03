@@ -9,35 +9,68 @@ type GildedRose(items:Item list) =
   //let mutable items = itms
 
   member this.transform item =
-    let mutable retItem = item
-    if retItem.Name <> "Aged Brie" && retItem.Name <> "Backstage passes to a TAFKAL80ETC concert" then
-      if retItem.Quality > 0 then
-        if retItem.Name <> "Sulfuras, Hand of Ragnaros" then
-          retItem <- { retItem with Quality = (retItem.Quality - 1) }
-    else
-       if retItem.Quality < 50 then
-        retItem <- { retItem with Quality = (retItem.Quality + 1) }
-        if retItem.Name = "Backstage passes to a TAFKAL80ETC concert" then
-          if retItem.SellIn < 11 then
-            if retItem.Quality < 50 then
-              retItem <- { retItem with Quality = (retItem.Quality + 1) }
-          if retItem.SellIn < 6 then
-            if retItem.Quality < 50 then
-              retItem <- { retItem with Quality = (retItem.Quality + 1) }
-    if retItem.Name <> "Sulfuras, Hand of Ragnaros" then
-      retItem <- { retItem with SellIn  = (retItem.SellIn - 1) }
-    if retItem.SellIn < 0 then
-      if retItem.Name <> "Aged Brie" then
-        if retItem.Name <> "Backstage passes to a TAFKAL80ETC concert" then
-          if retItem.Quality > 0 then
-            if retItem.Name <> "Sulfuras, Hand of Ragnaros" then
-              retItem <- { retItem with Quality   = (retItem.Quality  - 1) }
-        else
-          retItem <- { retItem with Quality   = (retItem.Quality  - retItem.Quality) }
+    // if retItem.Name <> "Aged Brie" && retItem.Name <> "Backstage passes to a TAFKAL80ETC concert" then
+    //   if retItem.Quality > 0 then
+    //     if retItem.Name <> "Sulfuras, Hand of Ragnaros" then
+    //       retItem <- { retItem with Quality = (retItem.Quality - 1) }
+    // else
+    //    if retItem.Quality < 50 then
+    //     retItem <- { retItem with Quality = (retItem.Quality + 1) }
+    //     if retItem.Name = "Backstage passes to a TAFKAL80ETC concert" then
+    //       if retItem.SellIn < 11 then
+    //         if retItem.Quality < 50 then
+    //           retItem <- { retItem with Quality = (retItem.Quality + 1) }
+    //       if retItem.SellIn < 6 then
+    //         if retItem.Quality < 50 then
+    //           retItem <- { retItem with Quality = (retItem.Quality + 1) }
+    let q1 = 
+      item.Quality +
+      if item.Name <> "Aged Brie" && item.Name <> "Backstage passes to a TAFKAL80ETC concert" then
+        if item.Quality > 0 then
+          if item.Name <> "Sulfuras, Hand of Ragnaros" then -1 else 0
+        else 0
       else
-        if retItem.Quality < 50 then
-          retItem <- { retItem with Quality   = (retItem.Quality + 1) }
-    retItem
+        if item.Quality < 50 then
+          1 + 
+          if item.Name = "Backstage passes to a TAFKAL80ETC concert" then
+            (if item.SellIn < 11 && item.Quality < 49 then 1 else 0)
+            +
+            (if item.SellIn < 6 && item.Quality < 49 then 1 else 0)
+          else 0
+        else 0
+
+    // if retItem.Name <> "Sulfuras, Hand of Ragnaros" then
+    //   retItem <- { retItem with SellIn  = (retItem.SellIn - 1) }
+    let s = 
+      item.SellIn +
+      if item.Name <> "Sulfuras, Hand of Ragnaros" then -1 else 0
+
+    // if retItem.SellIn < 0 then
+    //   if retItem.Name <> "Aged Brie" then
+    //     if retItem.Name <> "Backstage passes to a TAFKAL80ETC concert" then
+    //       if retItem.Quality > 0 then
+    //         if retItem.Name <> "Sulfuras, Hand of Ragnaros" then
+    //           retItem <- { retItem with Quality   = (retItem.Quality  - 1) }
+    //     else
+    //       retItem <- { retItem with Quality   = (retItem.Quality  - retItem.Quality) }
+    //   else
+    //     if retItem.Quality < 50 then
+    //       retItem <- { retItem with Quality   = (retItem.Quality + 1) }
+    let q2 =
+      q1 +
+      if s < 0 then
+        if item.Name <> "Aged Brie" then
+          if item.Name <> "Backstage passes to a TAFKAL80ETC concert" then
+            if q1 > 0 then
+              if item.Name <> "Sulfuras, Hand of Ragnaros" then -1 else 0
+            else 0
+          else
+            -q1
+        else
+          if q1 < 50 then 1 else 0
+      else 0
+    
+    {item with Quality = q2; SellIn = s}
 
   member this.UpdateQuality() =
     this.Items <- this.Items |> List.map this.transform
