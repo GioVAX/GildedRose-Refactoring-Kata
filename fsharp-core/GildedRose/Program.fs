@@ -40,7 +40,7 @@ type GildedRose(items:Item list) =
     retItem
 
   member this.UpdateQuality() =
-    Items <- Items |> List.map this.transform
+    this.Items <- this.Items |> List.map this.transform
     ()
 
 
