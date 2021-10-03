@@ -18,13 +18,13 @@ let iterate startingItem transform =
 
                     let expected = transform item
 
-                    test <@ expected = items.[0] @>
+                    test <@ expected = app.Items.[0] @>
                     expected
                 )
                 startingItem
     ()
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test foo`` () =
     let item = {Name = "foo"; SellIn = 0; Quality = 0}
     let items = [item]
@@ -34,9 +34,9 @@ let ``test foo`` () =
     
     let expected = {item with SellIn = -1; Quality = 0}
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test dexterity vest`` () =
     let item = {Name = "+5 Dexterity Vest"; SellIn = 10; Quality = 20}
     let items = [item]
@@ -46,9 +46,9 @@ let ``test dexterity vest`` () =
     
     let expected = {item with SellIn = 9; Quality = 19}
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test dexterity vest multiple times`` () =
     let startItem = {Name = "+5 Dexterity Vest"; SellIn = 10; Quality = 20}
     let transformer item = 
@@ -59,7 +59,7 @@ let ``test dexterity vest multiple times`` () =
 
     iterate startItem transformer
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test aged brie`` () =
     let item = {Name = "Aged Brie"; SellIn = 2; Quality = 0}
     let items = [item]
@@ -69,9 +69,9 @@ let ``test aged brie`` () =
     
     let expected = {item with SellIn = 1; Quality = 1}
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test aged brie multiple times`` () =
     let startItem = {Name = "Aged Brie"; SellIn = 2; Quality = 0}
     let transformer item = 
@@ -82,7 +82,7 @@ let ``test aged brie multiple times`` () =
 
     iterate startItem transformer
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test elixir mongoose`` () =
     let item = {Name = "Elixir of the Mongoose"; SellIn = 5; Quality = 7}
     let items = [item]
@@ -92,9 +92,9 @@ let ``test elixir mongoose`` () =
     
     let expected = {item with SellIn = 4; Quality = 6}
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test elixir mongoose multiple times`` () =
     let startItem = {Name = "Elixir of the Mongoose"; SellIn = 5; Quality = 7}
     let transformer item = 
@@ -105,7 +105,7 @@ let ``test elixir mongoose multiple times`` () =
 
     iterate startItem transformer
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test sulfuras sellin = 0`` () =
     let item = {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80}
     let items = [item]
@@ -115,16 +115,16 @@ let ``test sulfuras sellin = 0`` () =
     
     let expected = item
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test sulfuras SellIn = 0 multiple times`` () =
     iterate 
         {Name = "Sulfuras, Hand of Ragnaros"; SellIn = 0; Quality = 80}
         id
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test sulfuras sellIn = -1`` () =
     let item = {Name = "Sulfuras, Hand of Ragnaros"; SellIn = -1; Quality = 80}
     let items = [item]
@@ -134,15 +134,15 @@ let ``test sulfuras sellIn = -1`` () =
     
     let expected = item
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test sulfuras sellIn = -1 multiple times`` () =
     iterate 
         {Name = "Sulfuras, Hand of Ragnaros"; SellIn = -1; Quality = 80}
         id
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test TAFKAL80ETC 1`` () =
     let item = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 15; Quality = 20}
     let items = [item]
@@ -152,9 +152,9 @@ let ``test TAFKAL80ETC 1`` () =
     
     let expected = {item with SellIn = 14; Quality = 21}
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test TAFKAL80ETC 1 multiple times`` () =
     let startItem = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 15; Quality = 20}
     let transformer item = 
@@ -175,7 +175,7 @@ let ``test TAFKAL80ETC 1 multiple times`` () =
 
     iterate startItem transformer
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test TAFKAL80ETC 2`` () =
     let item = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 10; Quality = 49}
     let items = [item]
@@ -185,9 +185,9 @@ let ``test TAFKAL80ETC 2`` () =
     
     let expected = {item with SellIn = 9; Quality = 50}
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test TAFKAL80ETC 2 multiple times`` () =
     let startItem = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 10; Quality = 49}
     let transformer item = 
@@ -208,7 +208,7 @@ let ``test TAFKAL80ETC 2 multiple times`` () =
 
     iterate startItem transformer
     
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test TAFKAL80ETC 3`` () =
     let item = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 5; Quality = 49}
     let items = [item]
@@ -218,9 +218,9 @@ let ``test TAFKAL80ETC 3`` () =
     
     let expected = {item with SellIn = 4; Quality = 50}
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test TAFKAL80ETC 3 multiple times`` () =
     let startItem = {Name = "Backstage passes to a TAFKAL80ETC concert"; SellIn = 5; Quality = 49}
     let transformer item = 
@@ -241,7 +241,7 @@ let ``test TAFKAL80ETC 3 multiple times`` () =
 
     iterate startItem transformer
     
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test Mana Cake`` () =
     let item = {Name = "Conjured Mana Cake"; SellIn = 3; Quality = 6}
     let items = [item]
@@ -251,9 +251,9 @@ let ``test Mana Cake`` () =
     
     let expected = {item with SellIn = 2; Quality = 5}
 
-    test <@ expected = items.[0] @>
+    test <@ expected = app.Items.[0] @>
 
-[<Fact(Skip="temp")>]
+[<Fact>]
 let ``test Mana Cake multiple times`` () =
     let startItem = {Name = "Conjured Mana Cake"; SellIn = 3; Quality = 6}
     let transformer item = 
