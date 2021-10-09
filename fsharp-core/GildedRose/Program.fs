@@ -1,6 +1,4 @@
-﻿namespace GildedRose
-
-open System.Collections.Generic
+namespace GildedRose
 
 type Item = { Name: string; SellIn: int; Quality: int }
 

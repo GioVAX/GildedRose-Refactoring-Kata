@@ -1,7 +1,6 @@
 module GildedRose.IdiomaticRefcatorTests
 
 open GildedRose
-open System.Collections.Generic
 open Xunit
 open Swensen.Unquote
 
