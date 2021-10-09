@@ -1,4 +1,4 @@
-namespace GildedRose
+﻿namespace GildedRose
 
 type Item = { Name: string; SellIn: int; Quality: int }
 
@@ -77,12 +77,11 @@ type GildedRose(items:Item list) =
 
 module Program =
 
-  let toString (item:Item) =
+  let toString item =
     sprintf "%s, %d, %d" item.Name item.SellIn item.Quality
   
   [<EntryPoint>]
   let main argv =
-    printfn "OMGHAI!"
     let items = 
       [{Name = "+5 Dexterity Vest"; SellIn = 10; Quality = 20};
       {Name = "Aged Brie"; SellIn = 2; Quality = 0};
@@ -95,16 +94,23 @@ module Program =
       {Name = "Conjured Mana Cake"; SellIn = 3; Quality = 6}]
 
     let app = GildedRose(items)
-    for i = 0 to 30 do
-      printfn "-------- day %d --------" i
-      printfn "name, sellIn, quality"
 
-      // for j = 0 to items.Length - 1 do
-      //   printfn "%s, %d, %d" items.[j].Name items.[j].SellIn items.[j].Quality
-      app.Items 
-        |> List.map toString
-        |> List.iter (printfn "%s")
-      
-      printfn ""
-      app.UpdateQuality()
+    (["OMGHAI!"], [0..30]) 
+    ||> List.fold
+      (fun oldLines i ->
+        let newLines = 
+          List.concat [
+            oldLines;
+            [
+              sprintf "-------- day %d --------" i;
+              "name, sellIn, quality";
+            ];
+            app.Items 
+              |> List.map toString;
+            [""]
+          ]
+        app.UpdateQuality()
+        newLines
+      )
+    |> List.iter (printfn "%s")
     0
