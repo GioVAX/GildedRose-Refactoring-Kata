@@ -96,21 +96,20 @@ module Program =
     let app = GildedRose(items)
 
     "OMGHAI!"::
-      ([0..30]
-        |> List.collect
-          (fun i ->
-            let lines = 
-              List.concat [
-                [
-                  sprintf "-------- day %d --------" i;
-                  "name, sellIn, quality";
-                ];
-                app.Items 
-                  |> List.map toString;
+    ([0..30]
+      |> List.collect
+        (fun i ->
+          let lines = 
+            List.concat 
+              [
+                [sprintf "-------- day %d --------" i; "name, sellIn, quality"];
+                app.Items |> List.map toString;
                 [""]
               ]
-            app.UpdateQuality()
-            lines
-          ))
+              
+          app.UpdateQuality()
+          lines
+        )
+    )
     |> List.iter (printfn "%s")
     0
