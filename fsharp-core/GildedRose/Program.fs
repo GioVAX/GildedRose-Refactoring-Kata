@@ -5,7 +5,14 @@ type Item = { Name: string; SellIn: int; Quality: int }
 type GildedRose(items:Item list) =
   let mutable _items = items
 
-  let agedBrieTransformer = id
+  let agedBrieTransformer item =
+    let q = item.Quality + (if item.Quality < 50 then 1 else 0)
+    let s = item.SellIn - 1
+    let q' = 
+      q + 
+      if s < 0 && q < 50 then 1 else 0
+    {item with Quality = q'; SellIn = s}
+
   let tafkaTransformer = id
   let sulfurasTransformer = id
   let dexVestTransformer = id
