@@ -5,10 +5,7 @@ type Item = { Name: string; SellIn: int; Quality: int }
 type GildedRose(items:Item list) =
   let mutable _items = items
 
-  member this.Items = _items
-  member private this.Items with set value = _items <- value
-
-  member this.transform item =
+  let transform item =
     // if retItem.Name <> "Aged Brie" && retItem.Name <> "Backstage passes to a TAFKAL80ETC concert" then
     //   if retItem.Quality > 0 then
     //     if retItem.Name <> "Sulfuras, Hand of Ragnaros" then
@@ -72,8 +69,11 @@ type GildedRose(items:Item list) =
     
     {item with Quality = q2; SellIn = s}
 
+  member this.Items = _items
+  member private this.Items with set value = _items <- value
+
   member this.UpdateQuality() =
-    this.Items <- this.Items |> List.map this.transform
+    this.Items <- this.Items |> List.map transform
 
 module Program =
 
