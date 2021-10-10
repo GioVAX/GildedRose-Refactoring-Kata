@@ -80,6 +80,14 @@ module Program =
   let toString item =
     sprintf "%s, %d, %d" item.Name item.SellIn item.Quality
   
+  let generateDayReport day items =
+    List.concat 
+      [
+        [sprintf "-------- day %d --------" day; "name, sellIn, quality"];
+        items |> List.map toString;
+        [""]
+      ]
+              
   [<EntryPoint>]
   let main argv =
     let items = 
@@ -99,13 +107,7 @@ module Program =
     ([0..30]
       |> List.collect
         (fun i ->
-          let lines = 
-            List.concat 
-              [
-                [sprintf "-------- day %d --------" i; "name, sellIn, quality"];
-                app.Items |> List.map toString;
-                [""]
-              ]
+          let lines = generateDayReport i app.Items
               
           app.UpdateQuality()
           lines
