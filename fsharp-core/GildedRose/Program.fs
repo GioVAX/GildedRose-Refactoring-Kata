@@ -74,6 +74,7 @@ type GildedRose(items:Item list) =
 
   member this.UpdateQuality() =
     this.Items <- this.Items |> List.map transform
+    this.Items
 
 module Program =
 
@@ -110,7 +111,7 @@ module Program =
         |> List.collect
           (fun i ->
             app.UpdateQuality()
-            generateDayReport i app.Items
+            |> generateDayReport i
           )
       )
 
