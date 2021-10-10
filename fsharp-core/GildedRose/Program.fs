@@ -69,12 +69,9 @@ type GildedRose(items:Item list) =
     
     {item with Quality = q2; SellIn = s}
 
-  member this.Items = _items
-  member private this.Items with set value = _items <- value
-
   member this.UpdateQuality() =
-    this.Items <- this.Items |> List.map transform
-    this.Items
+    _items <- _items |> List.map transform
+    _items
 
 module Program =
 
@@ -105,7 +102,7 @@ module Program =
     let app = GildedRose(items)
 
     let header = ["OMGHAI!"]
-    let initialState = generateDayReport 0 app.Items
+    let initialState = generateDayReport 0 items
     let days = 
       ([1..30]
         |> List.collect
