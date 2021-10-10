@@ -5,6 +5,27 @@ type Item = { Name: string; SellIn: int; Quality: int }
 type GildedRose(items:Item list) =
   let mutable _items = items
 
+  let agedBrieTransformer = id
+  let tafkaTransformer = id
+  let sulfurasTransformer = id
+  let dexVestTransformer = id
+  let mongooseTransformer = id
+  let manaCakeTransformer = id
+
+  let transformersMap = 
+    Map.empty.
+      Add("+5 Dexterity Vest", dexVestTransformer).
+      Add("Aged Brie", agedBrieTransformer).
+      Add("Elixir of the Mongoose", mongooseTransformer).
+      Add("Sulfuras, Hand of Ragnaros", sulfurasTransformer).
+      Add("Backstage passes to a TAFKAL80ETC concert", tafkaTransformer).
+      Add("Conjured Mana Cake", manaCakeTransformer)
+
+  let getTransformer s =
+    match transformersMap.TryFind s with
+    | Some f -> f
+    | None -> id
+
   let transform item =
     // if retItem.Name <> "Aged Brie" && retItem.Name <> "Backstage passes to a TAFKAL80ETC concert" then
     //   if retItem.Quality > 0 then
@@ -69,6 +90,10 @@ type GildedRose(items:Item list) =
     
     {item with Quality = q2; SellIn = s}
 
+  member this.transform' (item:Item) =
+    let f = getTransformer item.Name
+    f item
+
   member this.UpdateQuality() =
     _items <- _items |> List.map transform
     _items
@@ -103,7 +128,7 @@ module Program =
 
     let header = ["OMGHAI!"]
     let initialState = generateDayReport 0 items
-    let days = 
+    let dailyReports = 
       ([1..30]
         |> List.collect
           (fun i ->
@@ -113,6 +138,6 @@ module Program =
       )
 
     List.concat
-      [header; initialState; days]
+      [header; initialState; dailyReports]
     |> List.iter (printfn "%s")
     0
