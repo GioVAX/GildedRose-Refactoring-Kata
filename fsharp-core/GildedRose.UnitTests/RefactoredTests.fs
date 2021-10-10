@@ -12,8 +12,7 @@ let iterate startingItem transform =
     let x = [1..30] 
             |> List.fold
                 (fun item _ -> 
-                    app.UpdateQuality()
-                    let actual = app.Items.[0]
+                    let actual = app.UpdateQuality().[0]
 
                     let expected = transform item
 
@@ -29,8 +28,8 @@ let ``test foo`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = -1; Quality = 0}
 
@@ -42,8 +41,8 @@ let ``test dexterity vest`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 9; Quality = 19}
 
@@ -66,8 +65,8 @@ let ``test aged brie`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 1; Quality = 1}
 
@@ -90,8 +89,8 @@ let ``test elixir mongoose`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 4; Quality = 6}
 
@@ -114,8 +113,8 @@ let ``test sulfuras sellin = 0`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = item
 
@@ -134,8 +133,8 @@ let ``test sulfuras sellIn = -1`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = item
 
@@ -153,8 +152,8 @@ let ``test TAFKAL80ETC 1`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 14; Quality = 21}
 
@@ -187,8 +186,8 @@ let ``test TAFKAL80ETC 2`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 9; Quality = 50}
 
@@ -221,8 +220,8 @@ let ``test TAFKAL80ETC 3`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 4; Quality = 50}
 
@@ -255,8 +254,8 @@ let ``test Mana Cake`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
-    let actual = app.Items.[0]
+    
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 2; Quality = 5}
 

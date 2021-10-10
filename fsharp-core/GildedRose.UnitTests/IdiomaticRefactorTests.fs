@@ -13,11 +13,11 @@ let iterate startingItem transform =
     let x = [1..30] 
             |> List.fold
                 (fun item _ -> 
-                    app.UpdateQuality()
+                    let actual = app.UpdateQuality().[0]
 
                     let expected = transform item
 
-                    test <@ expected = app.Items.[0] @>
+                    test <@ expected = actual @>
                     expected
                 )
                 startingItem
@@ -29,11 +29,11 @@ let ``test foo`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = -1; Quality = 0}
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 [<Fact>]
 let ``test dexterity vest`` () =
@@ -41,11 +41,11 @@ let ``test dexterity vest`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 9; Quality = 19}
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 [<Fact>]
 let ``test dexterity vest multiple times`` () =
@@ -64,11 +64,11 @@ let ``test aged brie`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 1; Quality = 1}
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 [<Fact>]
 let ``test aged brie multiple times`` () =
@@ -87,11 +87,11 @@ let ``test elixir mongoose`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 4; Quality = 6}
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 [<Fact>]
 let ``test elixir mongoose multiple times`` () =
@@ -110,11 +110,11 @@ let ``test sulfuras sellin = 0`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = item
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 
 [<Fact>]
@@ -129,11 +129,11 @@ let ``test sulfuras sellIn = -1`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = item
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 [<Fact>]
 let ``test sulfuras sellIn = -1 multiple times`` () =
@@ -147,11 +147,11 @@ let ``test TAFKAL80ETC 1`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 14; Quality = 21}
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 [<Fact>]
 let ``test TAFKAL80ETC 1 multiple times`` () =
@@ -180,11 +180,11 @@ let ``test TAFKAL80ETC 2`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 9; Quality = 50}
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 [<Fact>]
 let ``test TAFKAL80ETC 2 multiple times`` () =
@@ -213,11 +213,11 @@ let ``test TAFKAL80ETC 3`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 4; Quality = 50}
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 [<Fact>]
 let ``test TAFKAL80ETC 3 multiple times`` () =
@@ -246,11 +246,11 @@ let ``test Mana Cake`` () =
     let items = [item]
     
     let app = GildedRose(items)
-    app.UpdateQuality()
+    let actual = app.UpdateQuality().[0]
     
     let expected = {item with SellIn = 2; Quality = 5}
 
-    test <@ expected = app.Items.[0] @>
+    test <@ expected = actual @>
 
 [<Fact>]
 let ``test Mana Cake multiple times`` () =
