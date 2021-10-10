@@ -9,5 +9,5 @@ open Swensen.Unquote
 let ``Initial failing test`` () =
   let items = [{Name = "foo"; SellIn = 0; Quality = 0}]
   let app = GildedRose(items)
-  app.UpdateQuality()
+  app.UpdateQuality() |> ignore
   test <@ "fixme" = items.[0].Name @>
