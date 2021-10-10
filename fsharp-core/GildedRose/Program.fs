@@ -103,15 +103,18 @@ module Program =
 
     let app = GildedRose(items)
 
-    "OMGHAI!"::
-    ([0..30]
-      |> List.collect
-        (fun i ->
-          let lines = generateDayReport i app.Items
-              
-          app.UpdateQuality()
-          lines
-        )
-    )
+    let header = ["OMGHAI!"]
+    let initialState = generateDayReport 0 app.Items
+    let days = 
+      ([1..30]
+        |> List.collect
+          (fun i ->
+            app.UpdateQuality()
+            generateDayReport i app.Items
+          )
+      )
+
+    List.concat
+      [header; initialState; days]
     |> List.iter (printfn "%s")
     0
